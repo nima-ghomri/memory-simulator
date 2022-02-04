@@ -1,0 +1,90 @@
+#memory {
+  display: flex;
+  flex: 0 0 100%;
+  flex-wrap: wrap;
+  background: yellow;
+  border: yellow solid 2px;
+  font-family: "Consolas";
+}
+
+.byte {
+  width: 100px;
+  height: 100px;
+  margin: 2px;
+  color: white;
+  background: black;
+
+  box-sizing: content-box;
+  position: relative;
+}
+
+/* ------ Variables ------ */
+.var {
+  border: solid DimGrey;
+  border-width: 0 2px;
+  margin: 2px 0;
+}
+
+.begin {
+  margin-left: 2px;
+  border-left: 0;
+  border-radius: 5px 0 0 5px;
+}
+
+.end {
+  margin-right: 2px;
+  border-right: 0;
+  border-radius: 0 5px 5px 0;
+}
+
+/* ------ Outputs ------ */
+.bits {
+  font-size: 1rem;
+
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.value {
+  color: white;
+  font-size: 3.5rem;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.address {
+  color: white;
+  font-size: 0.75rem;
+
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.var .address {
+  color: grey;
+}
+
+/* ------ String ------ */
+.string {
+  background: #290000;
+  border-color: #421616;
+}
+
+/* ------ Int ------ */
+.int {
+  background: #000029;
+  border-color: #0e0e40;
+}
+
+.dummy {
+  width: 0;
+  border-width: 0;
+}
