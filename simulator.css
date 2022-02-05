@@ -10,10 +10,24 @@
   --textColor: white;
 }
 
+
+/* ------ Data Types ------ */
+.string {
+  background: #290000;
+  border-color: #421616;
+}
+
+.int {
+  background: #000029;
+  border-color: #0e0e40;
+}
+
+
 body {
   width: 100vw;
   overflow-x: hidden;
 }
+
 
 /* ------ Scrollbar ------ */
 ::-webkit-scrollbar {
@@ -41,7 +55,7 @@ body {
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
   :root {
-    --cells: 6;
+    --cells: 7;
   }
 }
 
@@ -142,20 +156,6 @@ body {
 
 .var .address {
   color: grey;
-}
-
-
-/* ------ String ------ */
-.string {
-  background: #290000;
-  border-color: #421616;
-}
-
-
-/* ------ Int ------ */
-.int {
-  background: #000029;
-  border-color: #0e0e40;
 }
 
 .dummy {
