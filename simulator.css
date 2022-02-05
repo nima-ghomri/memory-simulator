@@ -1,41 +1,115 @@
+:root {
+  --cells: 10;
+
+  --Gap: 4px;
+  --gap: 2px;
+  --rad: 5px;
+
+  --lineColor: yellow;
+  --cellColor: black;
+  --textColor: white;
+}
+
+body {
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+/* ------ Scrollbar ------ */
+::-webkit-scrollbar {
+  width: 0;
+  background-color: var(--lineColor);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: white;
+}
+
+:hover::-webkit-scrollbar {
+  width: var(--Gap);
+}
+
+
+/* ------ Sizes ------ */
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  :root {
+    --cells: 5;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  :root {
+    --cells: 6;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  :root {
+    --cells: 8;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  :root {
+    --cells: 10;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  :root {
+    --cells: 12;
+  }
+}
+
+
+/* ------ Structure ------ */
 #memory {
   display: flex;
   flex: 0 0 100%;
   flex-wrap: wrap;
-  background: yellow;
-  border: yellow solid 2px;
+
+  color: var(--textColor);
+  background: var(--lineColor);
+  border: var(--lineColor) solid var(--gap);
   font-family: "Consolas";
 }
 
 .byte {
-  width: 100px;
-  height: 100px;
-  margin: 2px;
-  color: white;
-  background: black;
+  width: calc((100vw - 4px * (var(--cells) + 1)) / var(--cells));
+  height: calc((100vw - 4px * (var(--cells) + 1)) / var(--cells));
+
+  margin: var(--gap);
+  background: var(--cellColor);
 
   box-sizing: content-box;
   position: relative;
 }
 
+
 /* ------ Variables ------ */
 .var {
   border: solid DimGrey;
-  border-width: 0 2px;
-  margin: 2px 0;
+  border-width: 0 var(--gap);
+  margin: var(--gap) 0;
 }
 
 .begin {
-  margin-left: 2px;
+  margin-left: var(--gap);
   border-left: 0;
-  border-radius: 5px 0 0 5px;
+  border-radius: var(--rad) 0 0 var(--rad);
 }
 
 .end {
-  margin-right: 2px;
+  margin-right: var(--gap);
   border-right: 0;
-  border-radius: 0 5px 5px 0;
+  border-radius: 0 var(--rad) var(--rad) 0;
 }
+
 
 /* ------ Outputs ------ */
 .bits {
@@ -48,7 +122,6 @@
 }
 
 .value {
-  color: white;
   font-size: 3.5rem;
 
   position: absolute;
@@ -59,7 +132,6 @@
 }
 
 .address {
-  color: white;
   font-size: 0.75rem;
 
   position: absolute;
@@ -72,11 +144,13 @@
   color: grey;
 }
 
+
 /* ------ String ------ */
 .string {
   background: #290000;
   border-color: #421616;
 }
+
 
 /* ------ Int ------ */
 .int {
