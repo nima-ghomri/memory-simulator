@@ -19,8 +19,8 @@ class Byte {
   }
 
   setBits(bits){
-    var b  = new Uint8Array([bits])[0].toString(8).padStart(8, "0");
-    this.element.children(".bits").html(b);
+    var binary  = new Uint8Array([bits])[0].toString(2).padStart(8, "0");
+    this.element.children(".bits").html(binary);
   }
 
   setValue(value) {
