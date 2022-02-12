@@ -40,28 +40,32 @@
         </nav>
 
         <!--Inputs-->
-        <div class="input-group">
-          <select
-            id="select-type"
-            class="form-select"
-            aria-label="Data type selection menu"
-          >
-            <option value="" disabled selected>Data Type</option>
-          </select>
+        <form id="variable-form">
+          <div class="input-group">
+            <select
+              id="select-type"
+              class="form-select"
+              aria-label="Data type selection menu"
+              required
+            >
+              <option value="" disabled selected>Data Type</option>
+            </select>
 
-          <input
-            id="input-name"
-            name="name"
-            type="text"
-            class="form-control"
-            placeholder="Name"
-            aria-label="Name"
-            autocomplete="off"
-          />
-          <button id="store" class="btn btn-outline-secondary bg-white">
-            Store
-          </button>
-        </div>
+            <input
+              id="input-name"
+              name="name"
+              type="text"
+              class="form-control"
+              placeholder="Name"
+              aria-label="Name"
+              autocomplete="off"
+              required
+            />
+            <button id="store" type="submit" class="btn btn-outline-secondary bg-white">
+              Store
+            </button>
+          </div>
+        </form>
       </header>
     </div>
 

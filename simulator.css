@@ -11,18 +11,6 @@
 }
 
 
-/* ------ Data Types ------ */
-.string {
-  background: #290000;
-  border-color: #421616;
-}
-
-.int {
-  background: #000029;
-  border-color: #0e0e40;
-}
-
-
 body {
   width: 100vw;
   overflow-x: hidden;
@@ -55,7 +43,7 @@ body {
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
   :root {
-    --cells: 7;
+    --cells: 6;
   }
 }
 
@@ -115,13 +103,15 @@ body {
 .begin {
   margin-left: var(--gap);
   border-left: 0;
-  border-radius: var(--rad) 0 0 var(--rad);
+  border-top-left-radius: var(--rad);
+  border-bottom-left-radius: var(--rad);
 }
 
 .end {
   margin-right: var(--gap);
   border-right: 0;
-  border-radius: 0 var(--rad) var(--rad) 0;
+  border-top-right-radius: var(--rad);
+  border-bottom-right-radius: var(--rad);
 }
 
 
@@ -161,4 +151,30 @@ body {
 .dummy {
   width: 0;
   border-width: 0;
+}
+
+
+/* ------ Data Types ------ */
+.bool {
+  background: #002b27;
+  border-color: #014e48;
+}
+
+.bool .value{
+  font-size: 2rem;
+}
+
+.int {
+  background: #000029;
+  border-color: #0e0e40;
+}
+
+.string {
+  background: #290000;
+  border-color: #421616;
+}
+
+.char {
+  background: #5e3a0c;
+  border-color: #915a11;
 }

@@ -18,20 +18,13 @@ class Byte {
     return new Uint8Array(1)[0].toString(8).padStart(8, "0");
   }
 
-  setBits(bits){
-    var binary  = new Uint8Array([bits])[0].toString(2).padStart(8, "0");
+  setBits(bits) {
+    var binary = new Uint8Array([bits])[0].toString(2).padStart(8, "0");
     this.element.children(".bits").html(binary);
   }
 
   setValue(value) {
     this.element.children(".value").html(value);
-  }
-}
-
-class Variable {
-  constructor(type, value) {
-    this.type = type;
-    this.value = value;
   }
 }
 
@@ -43,11 +36,45 @@ const DATATYPES = {
   char: {},
 };
 
+function getInt64Bytes(x) {
+  var bytes = [];
+  var i = 8;
+  do {
+    bytes[--i] = x & 255;
+    x = x >> 8;
+  } while (i);
+  return bytes;
+}
+
+// https://en.wikipedia.org/wiki/Two%27s_complement
+// https://en.wikipedia.org/wiki/Endianness
+
+function getIntegerBytes(x, size) {
+  var bytes = [];
+  do {
+    bytes[--size] = (x & 255).toString(2).padStart(8, "0");
+    x = x >> 8;
+  } while (size);
+  return bytes;
+}
+
+class Variable {
+  constructor(type, buffer, bits, values, value) {
+    for (let i = 0; i < buffer.length; i++) {
+      buffer[i].element.addClass(`var ${type}`);
+      buffer[i].setBits(bits[i]);
+      if (values !== undefined) buffer[i].setValue(values[i]);
+    }
+    buffer[0].element.addClass(`begin`);
+    buffer[buffer.length - 1].element.addClass(`end`);
+  }
+}
+
 class Memory {
   constructor(volumn) {
     this.bytes = [];
     this.allocate(volumn);
-    this.selected = this.bytes[0];
+    this.index = 0;
     this.variables = new Map();
   }
 
@@ -56,19 +83,40 @@ class Memory {
     var name = $("#input-name").val();
     var value = $("#input-value").val();
 
-    this.variables.set(name, new Variable(type, value));
-    this.bytes[0].setValue(0);
-    this.bytes[0].setBits(1);
-
     switch (type) {
-      case "string":
-        for (let i = this.selected.index; i < value.length; i++) {
-          console.log(value[i]);
-        }
+      case "bool":
+        var bits = [value == "True" ? 1 : 0];
+        var values = [value];
         break;
 
-      default:
+      case "int":
+        var bits = getIntegerBytes(value, 4);
         break;
+      case "long":
+        var bits = getIntegerBytes(value, 8);
+        break;
+
+      case "string":
+        var bits = Array.from(value + "\0").map((c) => c.charCodeAt(0));
+        var values = Array.from(value).concat("\\0");
+        break;
+
+      case "char":
+        var bits = [value.charCodeAt(0)];
+        var values = [value];
+        break;
+      default:
+        return;
+    }
+
+    var buffer = this.bytes.slice(
+      this.index,
+      (this.index = this.index + bits.length)
+    );
+    if (this.variables.has(name)) {
+      alert(`The vairable '${name}' already exists.`);
+    } else {
+      this.variables.set(name, new Variable(type, buffer, bits, values, value));
     }
   }
 
@@ -95,13 +143,11 @@ $(document).ready(function () {
   memory = new Memory(volumn);
   console.log(memory);
 
-  document.getElementById("store").addEventListener(
-    "click",
-    function () {
-      memory.store();
-    },
-    false
-  );
+  $("#variable-form").submit((e) => {
+    e.preventDefault();
+    memory.store();
+  });
+
   // Value input field change
   $("#select-type").change(changeDataType);
 });
@@ -113,7 +159,11 @@ function changeDataType(event) {
   let content = "";
   switch (name) {
     case "bool":
-      content = `<select id="input-value" name="value" class="form-select" aria-label="True or false selection menu">
+      content = `<select id="input-value"
+                         name="value"
+                         class="form-select"
+                         aria-label="True or false selection menu"
+                         required>
                   <option value="" selected disabled>Value</option>
                   <option value="${type["min"]}">${type["min"]}</option>
                   <option value="${type["max"]}">${type["max"]}</option>
@@ -128,7 +178,8 @@ function changeDataType(event) {
                         placeholder="Value"
                         aria-label="Value"
                         min="${type["min"]}"
-                        max="${type["max"]}"/> `;
+                        max="${type["max"]}"/>
+                        required`;
       break;
     case "char":
       content = `<input id="input-value"
@@ -138,7 +189,8 @@ function changeDataType(event) {
                         placeholder="Value" 
                         aria-label="Value" 
                         pattern=".{1}" 
-                        oninvalid="setCustomValidity('Please enter 1 character.')" />`;
+                        oninvalid="setCustomValidity('Please enter 1 character.')" 
+                        required/>`;
       break;
     default:
       content = `<input id="input-value" 
@@ -147,7 +199,8 @@ function changeDataType(event) {
                         class="form-control" 
                         placeholder="Value" 
                         aria-label="Value" 
-                        autocomplete="off"/>`;
+                        autocomplete="off"
+                        required/>`;
       break;
   }
   $(content).insertAfter("#input-name");
