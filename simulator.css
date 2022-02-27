@@ -5,32 +5,58 @@
   --gap: 2px;
   --rad: 5px;
 
-  --lineColor: yellow;
-  --cellColor: black;
-  --textColor: white;
+  --line-color: yellow;
+  --cell-color: black;
+  --text-color: white;
+  --scrolbar-color: white;
+
+  --data-color: 180;
 }
 
+/* ------ Data Types ------ */
+.bool {
+  --data-color: 300;
+}
 
+.bool .value {
+  font-size: 2rem;
+}
+
+.int {
+  --data-color: 240;
+}
+
+.long {
+  --data-color: 200;
+}
+
+.string {
+  --data-color: 0;
+}
+
+.char {
+  --data-color: 60;
+}
+
+/* ------ Global ------ */
 body {
   width: 100vw;
   overflow-x: hidden;
 }
 
-
 /* ------ Scrollbar ------ */
 ::-webkit-scrollbar {
   width: 0;
-  background-color: var(--lineColor);
+  background-color: var(--line-color);
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: white;
+  background-color: var(--scrolbar-color);
 }
 
 :hover::-webkit-scrollbar {
   width: var(--Gap);
 }
-
 
 /* ------ Sizes ------ */
 /* Extra small devices (phones, 600px and down) */
@@ -68,16 +94,15 @@ body {
   }
 }
 
-
 /* ------ Structure ------ */
 #memory {
   display: flex;
   flex: 0 0 100%;
   flex-wrap: wrap;
 
-  color: var(--textColor);
-  background: var(--lineColor);
-  border: var(--lineColor) solid var(--gap);
+  color: var(--text-color);
+  background: var(--line-color);
+  border: var(--line-color) solid var(--gap);
   font-family: "Consolas";
 }
 
@@ -86,16 +111,16 @@ body {
   height: calc((100vw - 4px * (var(--cells) + 1)) / var(--cells));
 
   margin: var(--gap);
-  background: var(--cellColor);
+  background: var(--cell-color);
 
   box-sizing: content-box;
   position: relative;
 }
 
-
-/* ------ Variables ------ */
-.var {
-  border: solid DimGrey;
+/* ------ Data ------ */
+.data {
+  background-color: hsl(var(--data-color), 100%, 8%);
+  border: solid  hsl(var(--data-color), 50%, 15%);
   border-width: 0 var(--gap);
   margin: var(--gap) 0;
 }
@@ -113,7 +138,6 @@ body {
   border-top-right-radius: var(--rad);
   border-bottom-right-radius: var(--rad);
 }
-
 
 /* ------ Outputs ------ */
 .bits {
@@ -144,8 +168,8 @@ body {
   transform: translate(-50%, -50%);
 }
 
-.var .address {
-  color: grey;
+.data .address {
+  color: hsl(var(--data-color), 25%, 50%);
 }
 
 .dummy {
@@ -153,28 +177,40 @@ body {
   border-width: 0;
 }
 
-
-/* ------ Data Types ------ */
-.bool {
-  background: #002b27;
-  border-color: #014e48;
+/* ------ Variable ------ */
+.variable-container {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem;
+  text-align: left;
 }
 
-.bool .value{
-  font-size: 2rem;
+.variable {
+  background-color: hsl(var(--data-color), 100%, 8%);
+
+  display: inline-block;
+  vertical-align: middle;
+
+  border-radius: 9999px;
+  padding: 0.1rem 0.25rem 0.1rem .5rem;
+  margin: 0.25rem;
+
+  font-family: sans-serif;
 }
 
-.int {
-  background: #000029;
-  border-color: #0e0e40;
+.close {
+  background-color: hsl(var(--data-color), 50%, 30%);
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  margin-left: .5rem;
+  border: 0;
+  opacity: .5;
+  display: inline;
+  
+  line-height: 1rem;
+  padding: 0;
 }
 
-.string {
-  background: #290000;
-  border-color: #421616;
-}
-
-.char {
-  background: #5e3a0c;
-  border-color: #915a11;
+.close:hover {
+  opacity: 1;
 }

@@ -30,10 +30,11 @@ export class Memory {
         break;
 
       case "int":
-        var bits = getIntegerBytes(value, 4);
+        var bits = this.getIntegerBytes(value, 4);
         break;
+
       case "long":
-        var bits = getIntegerBytes(value, 8);
+        var bits = this.getIntegerBytes(value, 8);
         break;
 
       case "string":
