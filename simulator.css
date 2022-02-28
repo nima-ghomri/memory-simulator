@@ -2,8 +2,11 @@
   --cells: 10;
 
   --Gap: 4px;
-  --gap: 2px;
+  --gap: calc(var(--Gap) / 2);
   --rad: 5px;
+
+  --cell-size: calc((100vw - var(--Gap) * (var(--cells) + 1)) / var(--cells));
+  --value-font-size: calc(var(--cell-size) / 2.15);
 
   --line-color: yellow;
   --cell-color: black;
@@ -107,20 +110,22 @@ body {
 }
 
 .byte {
-  width: calc((100vw - 4px * (var(--cells) + 1)) / var(--cells));
-  height: calc((100vw - 4px * (var(--cells) + 1)) / var(--cells));
+  width: var(--cell-size);
+  height: var(--cell-size);
 
   margin: var(--gap);
   background: var(--cell-color);
 
   box-sizing: content-box;
-  position: relative;
+  display: grid;
+  align-items: center;
+  text-align:center;
 }
 
 /* ------ Data ------ */
 .data {
   background-color: hsl(var(--data-color), 100%, 8%);
-  border: solid  hsl(var(--data-color), 50%, 15%);
+  border: solid hsl(var(--data-color), 50%, 15%);
   border-width: 0 var(--gap);
   margin: var(--gap) 0;
 }
@@ -139,42 +144,33 @@ body {
   border-bottom-right-radius: var(--rad);
 }
 
+.var {
+  width: 0;
+  height: calc((100vw - 4px * (var(--cells) + 1)) / var(--cells));
+
+  box-sizing: content-box;
+  position: relative;
+}
+
 /* ------ Outputs ------ */
 .bits {
   font-size: 1rem;
-
-  position: absolute;
-  top: 15%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin-bottom: auto;
 }
 
 .value {
-  font-size: 3.5rem;
-
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  font-size: var(--value-font-size);
+  line-height: 0;
   z-index: 1;
 }
 
 .address {
   font-size: 0.75rem;
-
-  position: absolute;
-  top: 90%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin-top: auto;
 }
 
 .data .address {
   color: hsl(var(--data-color), 25%, 50%);
-}
-
-.dummy {
-  width: 0;
-  border-width: 0;
 }
 
 /* ------ Variable ------ */
@@ -191,7 +187,7 @@ body {
   vertical-align: middle;
 
   border-radius: 9999px;
-  padding: 0.1rem 0.25rem 0.1rem .5rem;
+  padding: 0.1rem 0.25rem 0.1rem 0.5rem;
   margin: 0.25rem;
 
   font-family: sans-serif;
@@ -202,11 +198,11 @@ body {
   width: 1.2rem;
   height: 1.2rem;
   border-radius: 50%;
-  margin-left: .5rem;
+  margin-left: 0.5rem;
   border: 0;
-  opacity: .5;
+  opacity: 0.5;
   display: inline;
-  
+
   line-height: 1rem;
   padding: 0;
 }

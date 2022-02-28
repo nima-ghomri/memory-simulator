@@ -55,7 +55,7 @@ export class Memory {
     if (this.variables.has(name)) {
       alert(`The vairable '${name}' already exists.`);
     } else {
-      this.variables.set(name, new Variable(type, buffer, bits, values, value));
+      this.variables.set(name, new Variable(name, type, buffer, bits, values, value));
       this.index = this.index + bits.length;
     }
   }

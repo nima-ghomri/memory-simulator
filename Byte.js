@@ -22,8 +22,11 @@ export class Byte {
     this.element.children(".bits").html(binary);
   }
 
-  setValue(value) {
-    this.element.children(".value").html(value);
+  setValue(value, right) {
+    let div = this.element.children(".value");
+    div.html(value);
+    if (right !== undefined)
+      div.css("margin", right ? "0 0 0 auto" : "0 auto 0 0");
   }
 }
 
