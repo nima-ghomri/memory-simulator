@@ -1,12 +1,11 @@
 export class Variable {
-  constructor(name, type, buffer, bits, values, value) {
+  constructor(name, type, buffer, bits, values, value, removeCallback) {
     // allocate bits
     for (let i = 0; i < buffer.length; i++) {
-      buffer[i].element.addClass(`data ${type}`);
-      buffer[i].setBits(bits[i]);
+      buffer[i].setBits(bits[i], type);
     }
-    buffer[0].element.addClass(`begin`);
-    buffer[buffer.length - 1].element.addClass(`end`);
+    buffer.at(0).begin();
+    buffer.at(-1).end();
 
     // set values
     if (values !== undefined) {
@@ -26,7 +25,20 @@ export class Variable {
     }
 
     //add variable
-    // $(".variable")
+    this.element = $(`
+    <span class="variable ${type}">
+      ${name}
+      <button class="close">×</button>
+    </span>
+    `);
+
+    this.element.children(".close").on("click", () => {
+      this.element.remove();
+      buffer.forEach((b) => {
+        b.garbage();
+      });
+      removeCallback();
+    });
   }
 }
 

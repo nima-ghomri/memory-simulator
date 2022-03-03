@@ -13,13 +13,22 @@ export class Byte {
     );
   }
 
+  begin(){
+    this.element.addClass("begin");
+  }
+  
+  end(){
+    this.element.addClass("end");
+  }
+
   getBits() {
     return new Uint8Array(1)[0].toString(8).padStart(8, "0");
   }
 
-  setBits(bits) {
+  setBits(bits, type) {
     var binary = new Uint8Array([bits])[0].toString(2).padStart(8, "0");
     this.element.children(".bits").html(binary);
+    this.element.addClass(`data ${type}`);
   }
 
   setValue(value, right) {
@@ -27,6 +36,10 @@ export class Byte {
     div.html(value);
     if (right !== undefined)
       div.css("margin", right ? "0 0 0 auto" : "0 auto 0 0");
+  }
+
+  garbage(){
+    this.element.attr("class", "byte garbage");
   }
 }
 

@@ -55,7 +55,12 @@ export class Memory {
     if (this.variables.has(name)) {
       alert(`The vairable '${name}' already exists.`);
     } else {
-      this.variables.set(name, new Variable(name, type, buffer, bits, values, value));
+      let variable = new Variable(name, type, buffer, bits, values, value, () =>
+        this.variables.delete(name)
+      );
+
+      $("#variables").append(variable.element);
+      this.variables.set(name, variable);
       this.index = this.index + bits.length;
     }
   }

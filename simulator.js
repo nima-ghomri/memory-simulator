@@ -1,17 +1,15 @@
 import Memory from "./Memory.js";
 
-var memory;
-
 $(document).ready(function () {
   // Fill data types drop down menu
   Object.keys(DATATYPES).forEach((data) => {
     $("#select-type").append(`<option value="${data}">${data}</option>`);
   });
-
+  
   // Create memory
   const volumn = new URLSearchParams(window.location.search).get("bytes") ?? 64;
-  memory = new Memory(volumn);
-  console.log(memory);
+  let memory = new Memory(volumn);
+  window.memory = memory;
 
   $("#variable-form").submit((e) => {
     e.preventDefault();
