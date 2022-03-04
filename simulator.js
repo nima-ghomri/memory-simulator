@@ -3,7 +3,7 @@ import Memory from "./Memory.js";
 $(document).ready(function () {
   // Fill data types drop down menu
   Object.keys(DATATYPES).forEach((data) => {
-    $("#select-type").append(`<option value="${data}">${data}</option>`);
+    $("#select-type").append(`<option class="datatype ${data}" value="${data}">${data}</option>`);
   });
   
   // Create memory
@@ -13,11 +13,18 @@ $(document).ready(function () {
 
   $("#variable-form").submit((e) => {
     e.preventDefault();
-    memory.store();
+
+    var type = $("#select-type").val();
+    var name = $("#input-name").val();
+    var value = $("#input-value").val();
+    memory.store(type, name, value);
   });
 
   // Value input field change
   $("#select-type").change(changeDataType);
+
+  //test
+  memory.store("int", "myVar", "-10");
 });
 
 

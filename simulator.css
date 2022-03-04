@@ -33,12 +33,21 @@
   --data-color: 200;
 }
 
+.float {
+  --data-color: 90;
+}
+
 .string {
   --data-color: 0;
 }
 
 .char {
-  --data-color: 60;
+  --data-color: 40;
+}
+
+/* ------ Global ------ */
+.datatype{
+  color: hsl(var(--data-color), 50%, 50%);
 }
 
 /* ------ Global ------ */
@@ -122,6 +131,18 @@ body {
   text-align: center;
 }
 
+#memory input[type=radio] {
+  display: none;
+  cursor: pointer;
+}
+
+#memory input[type=radio]:checked + .byte {
+  opacity: 0.8;
+  border: solid var(--text-color);
+  border-width: var(--gap);
+  margin: 0;
+}
+
 /* ------ Data ------ */
 .data {
   background-color: hsl(var(--data-color), 100%, 8%);
@@ -146,7 +167,6 @@ body {
 
 /* ------ Data ------ */
 .garbage {
-  /* color: grey; */
   background: repeating-linear-gradient(
     45deg,
     grey,
@@ -154,18 +174,8 @@ body {
     dimgrey 10px,
     dimgrey 20px
   );
-  /* border: grey solid; */
-  
   filter: brightness(30%);
 }
-
-/* .var {
-  width: 0;
-  height: calc((100vw - 4px * (var(--cells) + 1)) / var(--cells));
-
-  box-sizing: content-box;
-  position: relative;
-} */
 
 /* ------ Outputs ------ */
 .bits {
@@ -207,6 +217,10 @@ body {
   font-family: sans-serif;
 }
 
+.variable:hover{
+  filter: brightness(130%);
+}
+
 .close {
   background-color: hsl(var(--data-color), 50%, 30%);
   width: 1.2rem;
@@ -214,7 +228,6 @@ body {
   border-radius: 50%;
   margin-left: 0.5rem;
   border: 0;
-  opacity: 0.5;
   display: inline;
 
   line-height: 1rem;
@@ -222,5 +235,5 @@ body {
 }
 
 .close:hover {
-  opacity: 1;
+  filter: brightness(150%);
 }

@@ -26,10 +26,10 @@ export class Variable {
 
     //add variable
     this.element = $(`
-    <span class="variable ${type}">
+    <label class="variable ${type}">
       ${name}
       <button class="close">×</button>
-    </span>
+    </label>
     `);
 
     this.element.children(".close").on("click", () => {

@@ -5,24 +5,49 @@ export class Memory {
   constructor(volumn) {
     this.bytes = [];
     this.allocate(volumn);
-    this.index = 0;
     this.variables = new Map();
+    this.setIndex(0);
   }
 
+  // getIntegerBytes(x, size) {
+  //   var bytes = [];
+  //   do {
+  //     bytes[--size] = (x & 255).toString(2).padStart(8, "0");
+  //     x = x >> 8;
+  //   } while (size);
+  //   return bytes;
+  // }
+
   getIntegerBytes(x, size) {
+    let binary = Math.abs(x)
+      .toString(2)
+      .padStart(size * 8, "0");
+    if (x < 0) {
+      // 1's complement
+      let bits = binary.split("").map((b) => (b == "0" ? "1" : "0"));
+      // 2's complement
+      for (let i = bits.length - 1; i >= 1; i--) {
+        if (bits[i] == "1") {
+          bits[i] = "0";
+        } else {
+          bits[i] = "1";
+          break;
+        }
+      }
+      binary = bits.join("");
+    }
+    console.log(binary);
+
     var bytes = [];
-    do {
-      bytes[--size] = (x & 255).toString(2).padStart(8, "0");
-      x = x >> 8;
-    } while (size);
+    for (let i = 0; i < size; i++) {
+      bytes[i] = binary.substring(i * 8, (i + 1) * 8);
+    }
     return bytes;
   }
 
-  store() {
-    var type = $("#select-type").val();
-    var name = $("#input-name").val();
-    var value = $("#input-value").val();
+  getFloatBytes(x, size) {}
 
+  store(type, name, value) {
     switch (type) {
       case "bool":
         var bits = [value == "True" ? 1 : 0];
@@ -50,7 +75,24 @@ export class Memory {
         return;
     }
 
-    var buffer = this.bytes.slice(this.index, this.index + bits.length);
+    // Check empty cells
+    var index = this.getIndex();
+    var buffer = this.bytes.slice(index, index + bits.length);
+    if (buffer.length < bits.length || buffer.some((b) => !b.free)) {
+      let counter = 0;
+      for (let i = 0; i < this.bytes.length; i++) {
+        if (this.bytes[i].free) counter++;
+        else counter = 0;
+        if (counter == bits.length) {
+          index = i - bits.length + 1;
+          this.setIndex(index);
+          alert(`Can't store "${name}" in this position. Not enough room!`);
+          return;
+        }
+      }
+      alert("Stack Overflow!");
+      return;
+    }
 
     if (this.variables.has(name)) {
       alert(`The vairable '${name}' already exists.`);
@@ -61,8 +103,16 @@ export class Memory {
 
       $("#variables").append(variable.element);
       this.variables.set(name, variable);
-      this.index = this.index + bits.length;
+      this.setIndex(index + bits.length);
     }
+  }
+
+  getIndex() {
+    return parseInt($('#memory input[type="radio"]:checked').val());
+  }
+
+  setIndex(value) {
+    $(`#byte${value}`).prop("checked", true);
   }
 
   allocate(volumn) {
