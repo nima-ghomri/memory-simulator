@@ -9,43 +9,78 @@ export class Memory {
     this.setIndex(0);
   }
 
-  // getIntegerBytes(x, size) {
-  //   var bytes = [];
-  //   do {
-  //     bytes[--size] = (x & 255).toString(2).padStart(8, "0");
-  //     x = x >> 8;
-  //   } while (size);
-  //   return bytes;
-  // }
-
   getIntegerBytes(x, size) {
-    let binary = Math.abs(x)
+    let bits = Math.abs(x)
       .toString(2)
-      .padStart(size * 8, "0");
+      .padStart(size * 8, "0")
+      .split("")
+      .map((b) => b == "1");
+
     if (x < 0) {
       // 1's complement
-      let bits = binary.split("").map((b) => (b == "0" ? "1" : "0"));
+      bits = bits.map((b) => !b);
       // 2's complement
       for (let i = bits.length - 1; i >= 1; i--) {
-        if (bits[i] == "1") {
-          bits[i] = "0";
-        } else {
-          bits[i] = "1";
-          break;
-        }
+        if ((bits[i] ^= true)) break;
       }
-      binary = bits.join("");
     }
-    console.log(binary);
 
     var bytes = [];
+    for (let i = 0; i < size; i++) {
+      bytes[i] = bits
+        .slice(i * 8, (i + 1) * 8)
+        .map((x) => (x ? "1" : "0"))
+        .join("");
+    }
+    return bytes;
+  }
+
+  /*
+  f: the float number
+  size: number of bytes
+  e: exponent bits
+  */
+  getFloatBytes(f, size, e) {
+    let s = size * 8 - e - 1;
+    let integral = Math.floor(Math.abs(f));
+    let fractional = Math.abs(f) - integral;
+
+    let integralPart = integral.toString(2);
+    let fractionalPart = "";
+    for (let i = 0; i < s; i++) {
+      fractional *= 2;
+      integral = Math.floor(fractional);
+      fractionalPart += integral;
+      if (fractional == 1) break;
+      console.log(
+        `${
+          fractional - integral
+        } * 2 => ${fractional} // take ${integral} and move ${
+          fractional - integral
+        } to next step`
+      );
+      fractional -= integral;
+    }
+
+    let allParts = `${integralPart}${fractionalPart}`;
+    let power = integralPart.length - allParts.indexOf("1") - 1;
+    let bias = Math.pow(2, e - 1) - 1;
+    let exponent = (power + bias).toString(2).padStart(e, "0");
+    let significant = allParts
+      .substring(integralPart.length - power)
+      .padEnd(s, "0");
+    let binary = `${f < 0 ? 1 : 0}${exponent}${significant}`;
+
+    console.log(`${power} ${bias} ${integralPart}.${fractionalPart}`);
+    console.log(`${f < 0 ? 1 : 0} ${exponent} ${significant}`);
+    console.log(`${f}: ${binary}`);
+    console.log("************************");
+    let bytes = [];
     for (let i = 0; i < size; i++) {
       bytes[i] = binary.substring(i * 8, (i + 1) * 8);
     }
     return bytes;
   }
-
-  getFloatBytes(x, size) {}
 
   store(type, name, value) {
     switch (type) {
@@ -60,6 +95,14 @@ export class Memory {
 
       case "long":
         var bits = this.getIntegerBytes(value, 8);
+        break;
+
+      case "float":
+        var bits = this.getFloatBytes(value, 4, 8);
+        break;
+
+      case "double":
+        var bits = this.getFloatBytes(value, 8, 11);
         break;
 
       case "string":

@@ -37,6 +37,10 @@
   --data-color: 90;
 }
 
+.double {
+  --data-color: 150;
+}
+
 .string {
   --data-color: 0;
 }
@@ -138,9 +142,9 @@ body {
 
 #memory input[type=radio]:checked + .byte {
   opacity: 0.8;
-  border: solid var(--text-color);
-  border-width: var(--gap);
-  margin: 0;
+  /* border: solid var(--text-color); */
+  /* border-width: var(--gap); */
+  /* margin: 0; */
 }
 
 /* ------ Data ------ */
