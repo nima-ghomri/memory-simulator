@@ -1,11 +1,27 @@
 export class Variable {
-  constructor(name, type, buffer, bits, values, value, removeCallback) {
-    // allocate bits
+  constructor(name, type, buffer, bits, values, value, center) {
+    // Allocate bits
+    this.head = buffer[0];
+    this.name = name;
+
+    // Bits
     for (let i = 0; i < buffer.length; i++) {
       buffer[i].setBits(bits[i], type);
     }
     buffer.at(0).begin();
     buffer.at(-1).end();
+
+    // Name
+    buffer.forEach((b) => {
+      b.element.addClass(name);
+      b.element.mouseenter((e) => {
+        $(".variable").css("opacity", 0.5);
+        $(this.element).css("opacity", 1);
+      });
+      b.element.mouseleave((e) => {
+        $(".variable").css("opacity", 1);
+      });
+    });
 
     // set values
     if (values !== undefined) {
@@ -18,7 +34,7 @@ export class Variable {
       for (let i = 0; i < buffer.length; i++) {
         buffer[i].setValue(
           value.substring(start, start + size),
-          i < buffer.length / 2
+          center ? undefined : i < buffer.length / 2
         );
         start += size;
       }
@@ -26,18 +42,26 @@ export class Variable {
 
     //add variable
     this.element = $(`
-    <label class="variable ${type}">
+    <label class="variable ${type}" name="${name}" id="${name}">
       ${name}
       <button class="close">×</button>
     </label>
     `);
 
+    this.element.mouseenter((e) => {
+      $(".byte").css("filter", "brightness(30%)");
+      $(`.byte.${name}`).css("filter", "brightness(100%)");
+    });
+
+    this.element.mouseleave((e) => {
+      $(".byte").css("filter", "");
+    });
+
     this.element.children(".close").on("click", () => {
-      this.element.remove();
+      $(".byte").css("filter", "");
       buffer.forEach((b) => {
         b.garbage();
       });
-      removeCallback();
     });
   }
 }

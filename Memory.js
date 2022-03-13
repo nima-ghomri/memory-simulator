@@ -52,13 +52,6 @@ export class Memory {
       integral = Math.floor(fractional);
       fractionalPart += integral;
       if (fractional == 1) break;
-      console.log(
-        `${
-          fractional - integral
-        } * 2 => ${fractional} // take ${integral} and move ${
-          fractional - integral
-        } to next step`
-      );
       fractional -= integral;
     }
 
@@ -71,10 +64,6 @@ export class Memory {
       .padEnd(s, "0");
     let binary = `${f < 0 ? 1 : 0}${exponent}${significant}`;
 
-    console.log(`${power} ${bias} ${integralPart}.${fractionalPart}`);
-    console.log(`${f < 0 ? 1 : 0} ${exponent} ${significant}`);
-    console.log(`${f}: ${binary}`);
-    console.log("************************");
     let bytes = [];
     for (let i = 0; i < size; i++) {
       bytes[i] = binary.substring(i * 8, (i + 1) * 8);
@@ -85,8 +74,9 @@ export class Memory {
   store(type, name, value) {
     switch (type) {
       case "bool":
-        var bits = [value == "True" ? 1 : 0];
+        var bits = [value == "True" ? "00000001" : "00000000"];
         var values = [value];
+        var center = true;
         break;
 
       case "int":
@@ -106,16 +96,26 @@ export class Memory {
         break;
 
       case "string":
-        var bits = Array.from(value + "\0").map((c) => c.charCodeAt(0));
+        var bits = Array.from(value + "\0").map((c) =>
+          c.charCodeAt(0).toString(2).padStart(8, "0")
+        );
         var values = Array.from(value).concat("\\0");
+        var center = true;
         break;
 
       case "char":
-        var bits = [value.charCodeAt(0)];
+        var bits = [value.charCodeAt(0).toString(2).padStart(8, "0")];
         var values = [value];
+        var center = true;
+        break;
+
+      case "pointer":
+        let head = this.variables.get(value).head;
+        var bits = this.getIntegerBytes(head.index, 8);
+        var value = head.address;
         break;
       default:
-        return;
+        return null;
     }
 
     // Check empty cells
@@ -130,23 +130,31 @@ export class Memory {
           index = i - bits.length + 1;
           this.setIndex(index);
           alert(`Can't store "${name}" in this position. Not enough room!`);
-          return;
+          return null;
         }
       }
       alert("Stack Overflow!");
-      return;
+      return null;
     }
 
     if (this.variables.has(name)) {
       alert(`The vairable '${name}' already exists.`);
+      return null;
     } else {
-      let variable = new Variable(name, type, buffer, bits, values, value, () =>
-        this.variables.delete(name)
+      let variable = new Variable(
+        name,
+        type,
+        buffer,
+        bits,
+        values,
+        value,
+        center
       );
 
       $("#variables").append(variable.element);
       this.variables.set(name, variable);
       this.setIndex(index + bits.length);
+      return variable;
     }
   }
 
@@ -162,6 +170,7 @@ export class Memory {
     for (let index = 0; index < volumn; index++) {
       let byte = new Byte(index);
       this.bytes.push(byte);
+      $("#memory").append(byte.input);
       $("#memory").append(byte.element);
     }
 

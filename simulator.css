@@ -16,6 +16,25 @@
   --data-color: 180;
 }
 
+/* ------ Tags ------ */
+html,
+body {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+header {
+  flex: 0 1 auto;
+}
+main {
+  flex: 1 1 auto;
+  overflow: overlay;
+}
+footer {
+  flex: 0 1 40px;
+}
+
 /* ------ Data Types ------ */
 .bool {
   --data-color: 300;
@@ -34,11 +53,11 @@
 }
 
 .float {
-  --data-color: 90;
+  --data-color: 120;
 }
 
 .double {
-  --data-color: 150;
+  --data-color: 80;
 }
 
 .string {
@@ -49,8 +68,15 @@
   --data-color: 40;
 }
 
+.pointer {
+  --data-color: 270;
+}
+.pointer.datatype {
+  color: black;
+}
+
 /* ------ Global ------ */
-.datatype{
+.datatype {
   color: hsl(var(--data-color), 50%, 50%);
 }
 
@@ -120,6 +146,9 @@ body {
   background: var(--line-color);
   border: var(--line-color) solid var(--gap);
   font-family: "Consolas";
+
+  outline: var(--Gap) solid var(--line-color);
+  outline-offset: calc(-1 * var(--Gap));
 }
 
 .byte {
@@ -135,22 +164,23 @@ body {
   text-align: center;
 }
 
-#memory input[type=radio] {
+#memory input[type="radio"] {
   display: none;
   cursor: pointer;
 }
 
-#memory input[type=radio]:checked + .byte {
-  opacity: 0.8;
-  /* border: solid var(--text-color); */
-  /* border-width: var(--gap); */
-  /* margin: 0; */
+#memory input[type="radio"]:hover + .byte {
+  filter: contrast(0.8);
+}
+
+#memory input[type="radio"]:checked + .byte {
+  filter: contrast(0.5);
 }
 
 /* ------ Data ------ */
 .data {
-  background-color: hsl(var(--data-color), 100%, 8%);
-  border: solid hsl(var(--data-color), 50%, 15%);
+  background-color: hsl(var(--data-color), 100%, 5%);
+  border: solid hsl(var(--data-color), 50%, 10%);
   border-width: 0 var(--gap);
   margin: var(--gap) 0;
 }
@@ -173,12 +203,13 @@ body {
 .garbage {
   background: repeating-linear-gradient(
     45deg,
-    grey,
-    grey 10px,
-    dimgrey 10px,
-    dimgrey 20px
+    #222,
+    #222 10px,
+    #333 10px,
+    #333 20px
   );
-  filter: brightness(30%);
+  color: #555;
+  /* filter: brightness(30%); */
 }
 
 /* ------ Outputs ------ */
@@ -190,7 +221,16 @@ body {
 .value {
   font-size: var(--value-font-size);
   line-height: 0;
+  margin: auto;
   z-index: 1;
+}
+
+.value.right {
+  margin: 0 0 0 auto;
+}
+
+.value.left {
+  margin: 0 auto 0 0;
 }
 
 .address {
@@ -199,13 +239,14 @@ body {
 }
 
 .data .address {
-  color: hsl(var(--data-color), 25%, 50%);
+  color: hsl(var(--data-color), 25%, 30%);
 }
 
 /* ------ Variable ------ */
 #variables {
   background-color: rgba(255, 255, 255, 0.2);
   text-align: left;
+  min-height: 10%;
 }
 
 .variable {
@@ -221,7 +262,7 @@ body {
   font-family: sans-serif;
 }
 
-.variable:hover{
+.variable:hover {
   filter: brightness(130%);
 }
 
@@ -233,6 +274,7 @@ body {
   margin-left: 0.5rem;
   border: 0;
   display: inline;
+  font-weight: bold;
 
   line-height: 1rem;
   padding: 0;
