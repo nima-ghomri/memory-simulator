@@ -170,11 +170,11 @@ body {
 }
 
 #memory input[type="radio"]:hover + .byte {
-  filter: contrast(0.8);
+  filter: contrast(0.6);
 }
 
 #memory input[type="radio"]:checked + .byte {
-  filter: contrast(0.5);
+  filter: contrast(0.4);
 }
 
 /* ------ Data ------ */
@@ -209,7 +209,6 @@ body {
     #333 20px
   );
   color: #555;
-  /* filter: brightness(30%); */
 }
 
 /* ------ Outputs ------ */
@@ -246,7 +245,6 @@ body {
 #variables {
   background-color: rgba(255, 255, 255, 0.2);
   text-align: left;
-  min-height: 10%;
 }
 
 .variable {

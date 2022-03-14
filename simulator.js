@@ -31,19 +31,27 @@ $(document).ready(function () {
   $("#variable-form").submit((e) => {
     e.preventDefault();
     storeVariable();
+    $("#variable-form")[0].reset();
   });
 
   //test
-  // test("bool", "var0", "True", 3);
-  // test("char", "var1", "X");
-  // test("string", "var2", "This is");
-  // test("float", "var3", "-1313.3125");
-  // test("float", "var4", "0.1015625");
-  // test("float", "var5", "39887.5625");
-  // test("double", "var6", "39887.5625");
-  // test("int", "var7", "12345");
-  // test("pointer", "ptvar1", "var1", 7);
+  // runTests();
 });
+
+function runTests(){
+  test("bool", "myBoolean", "True", 2);
+  test("string", "message", "This is CS50");
+  test("char", "x", "X");
+  test("int", "myInt", "50");
+  test("double", "myDouble", "-1234.56789");
+  $("#myDouble").children(".close").click();
+  test("float", "myFloat", "10.75", 24);
+  test("long", "num", "12345678900", 29);
+  test("pointer", "ptr", "myInt", 48);
+  test("string", "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH0", "x");
+  test("string", "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH1", "x");
+  // test("string", "longMessage", "This is a very long message", 39);
+}
 
 function test(type, name, value, index) {
   if (index !== undefined)
@@ -99,8 +107,9 @@ function changeDataType(name) {
                         aria-label="Value"
                         min="${type["min"]}"
                         max="${type["max"]}"
-                        step="${type["step"]}"/>
-                        required`;
+                        step="${type["step"]}"
+                        required
+                        />`;
       break;
     case "char":
       content = `<input id="input-value"
