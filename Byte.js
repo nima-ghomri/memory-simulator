@@ -41,7 +41,6 @@ export class Byte {
     // change alignment
     div.removeClass("right left");
     if (alignment !== undefined) div.addClass(alignment ? "right" : "left");
-    // div.css("margin", alignment ? "0 0 0 auto" : "0 auto 0 0");
   }
 
   garbage() {

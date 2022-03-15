@@ -48,8 +48,6 @@ function runTests(){
   test("float", "myFloat", "10.75", 24);
   test("long", "num", "12345678900", 29);
   test("pointer", "ptr", "myInt", 48);
-  test("string", "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH0", "x");
-  test("string", "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH1", "x");
   // test("string", "longMessage", "This is a very long message", 39);
 }
 

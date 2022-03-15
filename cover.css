@@ -70,14 +70,13 @@ main {
   width:100%;
 }
 
-
 /* ------ Social ------ */
-.social a{
+.social a {
   color: white;
   font-size: xx-large;
   padding: 1vw;
 }
 
-.social a:hover{
-  color: blue;
+.social a:hover {
+  color: yellow;
 }

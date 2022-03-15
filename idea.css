@@ -1,0 +1,27 @@
+
+
+article p {
+  text-align: justify;
+}
+
+#memory {
+  margin: auto;
+  width: fit-content;
+}
+
+#memory input[type="radio"]:hover + .byte {
+  filter: contrast(1);
+}
+
+#memory input[type="radio"]:checked + .byte {
+  filter: contrast(1);
+}
+
+html,
+body {
+    box-shadow: none;
+}
+
+main {
+  overflow: visible;
+}
