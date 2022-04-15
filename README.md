@@ -1,17 +1,18 @@
 # Memory Simulator
 
 ## Live Demo
-https://nima-ghomri.github.io/memory-simulator/
+[Memory Simulator Preview](https://nima-ghomri.github.io/memory-simulator/)
 
-## Video Demo:  https://youtu.be/3nQLm7AwTVA
+## Video Demo:
+[![Final Project - Memory Simulator - CS50's Introduction to Computer Science](http://img.youtube.com/vi/3nQLm7AwTVA/0.jpg)](https://www.youtube.com/watch?v=3nQLm7AwTVA "Final Project - Memory Simulator - CS50's Introduction to Computer Science")
 
 ## Description:
 This project is a simple memory simulator which demonstrates how bytes are allocated and variables are stored in memory.
 
 ### Inspiration
-In [week 4 lecture (Memory)](https://cs50.harvard.edu/x/2022/weeks/4/) of [CS50 Introduction to Computer Science](https://cs50.harvard.edu/x/2022/) course, the instructor David Malan explained how data types like integers or strings store in computer memory. The slides were easy to understand and pictorially nice to look at. So, I decided to create a project to implement something like the slides but with the capability to create and modify variables dynamically. That was how the idea of the memory simulator obtained.
+In [week 4 lecture (Memory)](https://cs50.harvard.edu/x/2022/weeks/4/) of [CS50 Introduction to Computer Science](https://cs50.harvard.edu/x/2022/) course, the instructor [David Malan](https://github.com/dmalan) explained how data types like integers or strings store in computer memory. The slides were easy to understand and pictorially nice to look at. So, I decided to create a project to implement something like the slides but with the capability to create and modify variables dynamically. That was how the idea of the memory simulator obtained.
 
-![This is a alt text.](thumbnail.png "This is a sample image.")
+[![CS50 2019 - Lecture 4 - Memory](http://img.youtube.com/vi/cF6YkH-8vFk/0.jpg)](https://youtu.be/cF6YkH-8vFk&t=555s "CS50 2019 - Lecture 4 - Memory")
 
 ### Functionality
 The entry point to the application is `simulator.js` file. The memory itself implemented as a JavaScript class `Memory.js` which has the responsibility of allocating the memory given the number of desirable bytes. There are two kinds of objects in Memory class, the Variable and the Byte, located in `Variable.js` and `Byte.js` respectively. There are multiple data types available to choose from:
